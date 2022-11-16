@@ -53,7 +53,7 @@ func NewGetDataSiteAController(router *gin.Engine, ucGetData usecase.GetInternet
 		ucGetData: ucGetData,
 	}
 
-	router.GET("/get-data-site-a", controller.GetDataSiteA)
+	router.POST("/get-data-site-a", controller.GetDataSiteA)
 
 	return &controller
 }
