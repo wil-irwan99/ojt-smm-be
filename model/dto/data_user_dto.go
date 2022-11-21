@@ -10,9 +10,14 @@ type DataInput struct {
 }
 
 type DataOutput struct {
-	TrafficIn             float64 `json:"traffic_in"`
-	UtilizationTrafficIn  float64 `json:"uti_traffic_in"`
-	TrafficOut            float64 `json:"traffic_out"`
-	UtilizationTrafficOut float64 `json:"uti_traffic_out"`
+	Id                    string  `json:"id"`
+	Site                  string  `json:"site"`
+	Link                  string  `json:"link"`
 	AverageUp             float64 `json:"average_up"`
+	UtilizationTrafficIn  float64 `json:"uti_traffic_in"`
+	UtilizationTrafficOut float64 `json:"uti_traffic_out"`
+	TrafficIn             float64 `json:"traffic_in"`
+	TrafficOut            float64 `json:"traffic_out"`
+	Notes                 string  `json:"notes"`
+	BandwidthCap          float64 `json:"bandwidth_cap"`
 }

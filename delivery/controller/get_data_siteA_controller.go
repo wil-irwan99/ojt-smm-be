@@ -31,18 +31,27 @@ func (g *GetDataSiteAController) GetDataSiteA(ctx *gin.Context) {
 		return
 	}
 
+	var resultArr []dto.DataOutput
+
 	resultData := dto.DataOutput{
-		TrafficIn:             resultTraffIn,
-		UtilizationTrafficIn:  resUtilizationTraffIn,
-		TrafficOut:            resultTraffOut,
-		UtilizationTrafficOut: resUtilizationTraffOut,
+		Id:                    input.IdSensor,
+		Site:                  input.Site,
+		Link:                  "XL",
 		AverageUp:             averageUp,
+		UtilizationTrafficIn:  resUtilizationTraffIn,
+		UtilizationTrafficOut: resUtilizationTraffOut,
+		TrafficIn:             resultTraffIn,
+		TrafficOut:            resultTraffOut,
+		Notes:                 "notes",
+		BandwidthCap:          85,
 	}
+
+	resultArr = append(resultArr, resultData)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":    "SUCCESS",
 		"date time": sdate + " " + stime + " - " + edate + " " + etime,
-		"result":    resultData,
+		"result":    resultArr,
 	})
 
 }
