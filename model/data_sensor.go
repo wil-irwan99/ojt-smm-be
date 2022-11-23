@@ -1,10 +1,11 @@
 package model
 
 type Sensor struct {
-	Site string
-	Link string
-	Id   string `gorm:"primaryKey"`
-	Type string
+	Site     string
+	Link     string
+	Id       string `gorm:"primaryKey"`
+	Type     string
+	DataType string
 }
 
 func (Sensor) TableName() string {

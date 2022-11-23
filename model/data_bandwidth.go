@@ -2,7 +2,7 @@ package model
 
 type BandwidthCapacity struct {
 	Site         string
-	BandWidthCap int16
+	BandwidthCap int16
 }
 
 func (BandwidthCapacity) TableName() string {

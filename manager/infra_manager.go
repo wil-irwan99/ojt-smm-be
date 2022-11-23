@@ -12,11 +12,13 @@ import (
 type Infra interface {
 	ConfigData() config.Config
 	SqlDb() *gorm.DB
+	Dummy() string
 }
 
 type infra struct {
-	db  *gorm.DB
-	cfg config.Config
+	db    *gorm.DB
+	cfg   config.Config
+	dummy string
 }
 
 func (i *infra) ConfigData() config.Config {
@@ -27,6 +29,10 @@ func (i *infra) SqlDb() *gorm.DB {
 	return i.db
 }
 
+func (i *infra) Dummy() string {
+	return i.dummy
+}
+
 func NewInfra(config config.Config) Infra {
 
 	resource, err := initDbResource(config.DataSourceName)
@@ -35,8 +41,9 @@ func NewInfra(config config.Config) Infra {
 	}
 
 	infra := infra{
-		cfg: config,
-		db:  resource,
+		cfg:   config,
+		db:    resource,
+		dummy: "",
 	}
 	return &infra
 }
