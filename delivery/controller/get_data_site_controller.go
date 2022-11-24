@@ -82,14 +82,14 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 	//resultArr = append(resultArr, result...)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"status":          "SUCCESS",
-		"date time":       sdate + " " + stime + " - " + edate + " " + etime,
-		"result-internet": resultInternetArr,
+		"status":         "SUCCESS",
+		"datetime":       sdate + " " + stime + " - " + edate + " " + etime,
+		"resultInternet": resultInternetArr,
 	})
 
 }
 
-func NewGetDataSiteAController(router *gin.Engine, ucGetData usecase.GetInternetDataSiteUsecase, config config.Config) *GetDataSiteController {
+func NewGetDataSiteController(router *gin.Engine, ucGetData usecase.GetInternetDataSiteUsecase, config config.Config) *GetDataSiteController {
 	controller := GetDataSiteController{
 		router:    router,
 		ucGetData: ucGetData,
