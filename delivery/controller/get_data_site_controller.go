@@ -36,15 +36,32 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 
 	switch site {
 	case "BIB":
-		ipSiteConfig = append(ipSiteConfig, []string{g.config.PRTGConfig.Ip, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
-	case "Berau":
-
-	default:
-
+		ipSiteConfig = append(ipSiteConfig, []string{"BIB", g.config.PRTGConfig.IpBIB, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
+	case "KIM":
+		ipSiteConfig = append(ipSiteConfig, []string{"KIM", g.config.PRTGConfig.IpKIM, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
+	case "MAL":
+		ipSiteConfig = append(ipSiteConfig, []string{"MAL", g.config.PRTGConfig.IpMAL, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
+	case "BSL":
+		ipSiteConfig = append(ipSiteConfig, []string{"BSL", g.config.PRTGConfig.IpBSL, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
+	case "SML":
+		ipSiteConfig = append(ipSiteConfig, []string{"SML", g.config.PRTGConfig.IpSML, g.config.PRTGConfig.User, g.config.PRTGConfig.PasswordSML})
+	case "MSIG":
+		ipSiteConfig = append(ipSiteConfig, []string{"MSIG", g.config.PRTGConfig.IpMSIG, g.config.PRTGConfig.User, g.config.PRTGConfig.Password})
+	case "BCHO":
+		ipSiteConfig = append(ipSiteConfig, []string{"BCHO", g.config.PRTGConfig.IpBCHO, g.config.PRTGConfig.UserBCHO, g.config.PRTGConfig.PasswordBCHO})
+	case "all-site":
+		ipSiteConfig = append(ipSiteConfig,
+			[]string{"BIB", g.config.PRTGConfig.IpBIB, g.config.PRTGConfig.User, g.config.PRTGConfig.Password},
+			[]string{"KIM", g.config.PRTGConfig.IpKIM, g.config.PRTGConfig.User, g.config.PRTGConfig.Password},
+			[]string{"MAL", g.config.PRTGConfig.IpMAL, g.config.PRTGConfig.User, g.config.PRTGConfig.Password},
+			[]string{"BSL", g.config.PRTGConfig.IpBSL, g.config.PRTGConfig.User, g.config.PRTGConfig.Password},
+			[]string{"SML", g.config.PRTGConfig.IpSML, g.config.PRTGConfig.User, g.config.PRTGConfig.PasswordSML},
+			[]string{"MSIG", g.config.PRTGConfig.IpMSIG, g.config.PRTGConfig.User, g.config.PRTGConfig.Password},
+			[]string{"BCHO", g.config.PRTGConfig.IpBCHO, g.config.PRTGConfig.UserBCHO, g.config.PRTGConfig.PasswordBCHO})
 	}
 
 	for i := 0; i < len(ipSiteConfig); i++ {
-		resultInternet, err := g.ucGetData.GetInternetDataSite(site, "internet", ipSiteConfig[i][0], ipSiteConfig[i][1], ipSiteConfig[i][2], sdate, edate, stime, etime)
+		resultInternet, err := g.ucGetData.GetInternetDataSite(ipSiteConfig[i][0], "internet", ipSiteConfig[i][1], ipSiteConfig[i][2], ipSiteConfig[i][3], sdate, edate, stime, etime)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
 				"status":  "FAILED",

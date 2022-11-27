@@ -18,16 +18,16 @@ type getInternetDataSiteUsecase struct {
 
 func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe string, ip string, user string, password string, sdate string, edate string, stime string, etime string) ([]dto.DataOutput, error) {
 	var sensors []model.Sensor
-	sensors, err := g.getDataSensorRepo.RetriveSensors(site, tipe, "traffic")
+	sensors, err := g.getDataSensorRepo.RetriveSensors(site, tipe)
 	if err != nil {
 		return nil, err
 	}
 
-	var bandwidth model.BandwidthCapacity
-	bandwidth, err = g.getDataSensorRepo.RetriveBandwidth(site)
-	if err != nil {
-		return nil, err
-	}
+	// var bandwidth model.BandwidthCapacity
+	// bandwidth, err = g.getDataSensorRepo.RetriveBandwidth(site)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	var resultArr []dto.DataOutput
 
@@ -103,8 +103,8 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 			averageUp = math.Round(averageUp / float64(len(result.HistDatas)))
 			// averageDown = 100 - averageUp
 
-			utilizationTrafficIn = math.Round(((averageMbitResultTrafficIn/float64(bandwidth.BandwidthCap))*100)*100) / 100
-			utilizationTrafficOut = math.Round(((averageMbitResultTrafficOut/float64(bandwidth.BandwidthCap))*100)*100) / 100
+			utilizationTrafficIn = math.Round(((averageMbitResultTrafficIn/float64(sensors[i].Bandwidth))*100)*100) / 100
+			utilizationTrafficOut = math.Round(((averageMbitResultTrafficOut/float64(sensors[i].Bandwidth))*100)*100) / 100
 
 			resultData := dto.DataOutput{
 				Id:                    sensors[i].Id,
@@ -116,7 +116,7 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 				TrafficIn:             averageMbitResultTrafficIn,
 				TrafficOut:            averageMbitResultTrafficOut,
 				Notes:                 "",
-				BandwidthCap:          float64(bandwidth.BandwidthCap),
+				BandwidthCap:          float64(sensors[i].Bandwidth),
 			}
 
 			resultArr = append(resultArr, resultData)

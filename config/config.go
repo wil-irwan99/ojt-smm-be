@@ -14,9 +14,18 @@ type DbConfig struct {
 }
 
 type PRTGConfig struct {
-	Ip       string
-	User     string
-	Password string
+	IpBIB        string
+	IpKIM        string
+	IpMAL        string
+	IpBSL        string
+	IpSML        string
+	IpMSIG       string
+	IpBCHO       string
+	User         string
+	Password     string
+	UserBCHO     string
+	PasswordBCHO string
+	PasswordSML  string
 }
 
 type Config struct {
@@ -27,9 +36,18 @@ type Config struct {
 
 func (c *Config) readConfig() {
 	api := os.Getenv("API_URL")
-	ip := os.Getenv("IP_PRTG")
+	ipBIB := os.Getenv("IP_BIB")
+	ipKIM := os.Getenv("IP_KIM")
+	ipMAL := os.Getenv("IP_MAL")
+	ipBSL := os.Getenv("IP_BSL")
+	ipSML := os.Getenv("IP_SML")
+	ipMSIG := os.Getenv("IP_MSIG")
+	ipBCHO := os.Getenv("IP_BCHO")
 	user := os.Getenv("USER")
 	password := os.Getenv("PASSWORD")
+	userBCHO := os.Getenv("USER_BCHO")
+	passwordBCHO := os.Getenv("PASSWORD_BCHO")
+	passwordSML := os.Getenv("PASSWORD_SML")
 
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
@@ -42,9 +60,18 @@ func (c *Config) readConfig() {
 	c.ApiConfig = ApiConfig{Url: api}
 	c.DbConfig = DbConfig{DataSourceName: dsn}
 	c.PRTGConfig = PRTGConfig{
-		Ip:       ip,
-		User:     user,
-		Password: password,
+		IpBIB:        ipBIB,
+		IpKIM:        ipKIM,
+		IpMAL:        ipMAL,
+		IpBSL:        ipBSL,
+		IpSML:        ipSML,
+		IpMSIG:       ipMSIG,
+		IpBCHO:       ipBCHO,
+		User:         user,
+		Password:     password,
+		UserBCHO:     userBCHO,
+		PasswordBCHO: passwordBCHO,
+		PasswordSML:  passwordSML,
 	}
 }
 

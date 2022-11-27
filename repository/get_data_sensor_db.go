@@ -8,7 +8,7 @@ import (
 )
 
 type GetDataSensorRepository interface {
-	RetriveSensors(site string, tipe string, tipedata string) ([]model.Sensor, error)
+	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
 	RetriveBandwidth(site string) (model.BandwidthCapacity, error)
 }
 
@@ -16,9 +16,9 @@ type getDataSensorRepository struct {
 	db *gorm.DB
 }
 
-func (g *getDataSensorRepository) RetriveSensors(site string, tipe string, tipedata string) ([]model.Sensor, error) {
+func (g *getDataSensorRepository) RetriveSensors(site string, tipe string) ([]model.Sensor, error) {
 	var sensors []model.Sensor
-	res := g.db.Where("site = ? AND type = ? AND data_type = ?", site, tipe, tipedata).Find(&sensors)
+	res := g.db.Where("site = ? AND type = ?", site, tipe).Find(&sensors)
 
 	if err := res.Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
