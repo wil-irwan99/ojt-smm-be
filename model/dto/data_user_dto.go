@@ -21,3 +21,13 @@ type DataOutput struct {
 	Notes                 string  `json:"notes"`
 	BandwidthCap          float64 `json:"bandwidth_cap"`
 }
+
+type DataOutputDevice struct {
+	Id        string  `json:"id"`
+	Location  string  `json:"location"`
+	Type      string  `json:"type"`
+	Category  string  `json:"category"`
+	Usage     float64 `json:"usage"`
+	Condition string  `json:"condition"`
+	Notes     string  `json:"notes"`
+}

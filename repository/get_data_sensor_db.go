@@ -10,6 +10,7 @@ import (
 type GetDataSensorRepository interface {
 	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
 	RetriveBandwidth(site string) (model.BandwidthCapacity, error)
+	RetriveDevices(site string) ([]model.Device, error)
 }
 
 type getDataSensorRepository struct {
@@ -28,6 +29,20 @@ func (g *getDataSensorRepository) RetriveSensors(site string, tipe string) ([]mo
 		}
 	}
 	return sensors, nil
+}
+
+func (g *getDataSensorRepository) RetriveDevices(site string) ([]model.Device, error) {
+	var devices []model.Device
+	res := g.db.Where("site = ?", site).Find(&devices)
+
+	if err := res.Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		} else {
+			return nil, err
+		}
+	}
+	return devices, nil
 }
 
 func (g *getDataSensorRepository) RetriveBandwidth(site string) (model.BandwidthCapacity, error) {

@@ -65,6 +65,7 @@ func initDbResource(dataSourceName string) (*gorm.DB, error) {
 	db.AutoMigrate(
 		&model.Sensor{},
 		//&model.BandwidthCapacity{},
+		&model.Device{},
 	)
 	if err != nil {
 		return nil, err
