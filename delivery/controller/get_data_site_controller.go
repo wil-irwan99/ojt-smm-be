@@ -33,6 +33,7 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 
 	var ipSiteConfig [][]string
 	var resultInternetArr []dto.DataOutput
+	var resultIntranetArr []dto.DataOutput
 
 	switch site {
 	case "BIB":
@@ -70,6 +71,17 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 			return
 		}
 		resultInternetArr = append(resultInternetArr, resultInternet...)
+
+		resultIntranet, err := g.ucGetData.GetInternetDataSite(ipSiteConfig[i][0], "intranet", ipSiteConfig[i][1], ipSiteConfig[i][2], ipSiteConfig[i][3], sdate, edate, stime, etime)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"status":  "FAILED",
+				"message": "data not found, date time input maybe wrong",
+			})
+			return
+		}
+		resultIntranetArr = append(resultIntranetArr, resultIntranet...)
+
 	}
 
 	// resultTraffIn, resUtilizationTraffIn, resultTraffOut, resUtilizationTraffOut, averageUp, _, sdate, edate, stime, etime, err := g.ucGetData.GetInternetData(input.IdSensor, input.SDate, input.EDate, input.STime, input.ETime)
@@ -102,6 +114,7 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 		"status":         "SUCCESS",
 		"datetime":       sdate + " " + stime + " - " + edate + " " + etime,
 		"resultInternet": resultInternetArr,
+		"resultIntranet": resultIntranetArr,
 	})
 
 }
