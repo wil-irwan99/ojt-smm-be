@@ -84,7 +84,7 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 				case int64:
 					convertMbitResultTrafficOut = float64(l)
 				default:
-					convertFloatDowntime = 0
+					convertFloatDowntime = 100
 				}
 
 				convertMbitResultTrafficIn = math.Round(convertMbitResultTrafficIn / 1000)
