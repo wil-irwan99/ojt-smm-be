@@ -26,14 +26,28 @@ func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user stri
 	var resultArr []dto.DataOutputDevice
 
 	for i := 0; i < len(devices); i++ {
+
 		result, err := g.getDataRepo.GetJson(devices[i].Id, ip, user, password, sdate, edate, stime, etime)
+
+		var key string
+
+		for k := range result.HistDatas[i] {
+			if k != "datetime" {
+				if k != "Downtime" {
+					if k != "coverage" {
+						key = k
+					}
+				}
+			}
+		}
 
 		if err == nil {
 
 			var averageValue float64
 
 			for i := 0; i < len(result.HistDatas); i++ {
-				rawDataValue := result.HistDatas[i]["Value"]
+
+				rawDataValue := result.HistDatas[i][key]
 
 				var convertFloatValue float64
 
@@ -51,15 +65,25 @@ func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user stri
 				averageValue += convertFloatValue
 			}
 
-			averageValue = math.Round(((averageValue/float64(len(result.HistDatas)))*100)*100) / 100
+			averageValue = math.Round((averageValue/float64(len(result.HistDatas)))*100) / 100
+
+			var condition string
+
+			if averageValue <= 70 {
+				condition = "Normal"
+			} else if averageValue <= 80 {
+				condition = "Warning"
+			} else {
+				condition = "Critical"
+			}
 
 			resultData := dto.DataOutputDevice{
 				Id:        devices[i].Id,
-				Location:  "",
-				Type:      "",
-				Category:  "",
+				Location:  devices[i].Location,
+				Type:      devices[i].Type,
+				Category:  devices[i].Category,
 				Usage:     averageValue,
-				Condition: "",
+				Condition: condition,
 				Notes:     "",
 			}
 

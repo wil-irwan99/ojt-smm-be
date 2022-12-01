@@ -5,6 +5,7 @@ import "project-ojt/usecase"
 type UsecaseManager interface {
 	// GetDataInternetUsecase() usecase.GetInternetDataUsecase
 	GetDataInternetSiteUsecase() usecase.GetInternetDataSiteUsecase
+	GetDataCPUSiteUsecase() usecase.GetCPUDataSiteUsecase
 }
 
 type usecaseManager struct {
@@ -17,6 +18,10 @@ type usecaseManager struct {
 
 func (u *usecaseManager) GetDataInternetSiteUsecase() usecase.GetInternetDataSiteUsecase {
 	return usecase.NewGetInternetDataSiteUsecase(u.repoManager.GetJsonRepo(), u.repoManager.GetDataSensorRepo())
+}
+
+func (u *usecaseManager) GetDataCPUSiteUsecase() usecase.GetCPUDataSiteUsecase {
+	return usecase.NewGetCPUDataSiteUsecase(u.repoManager.GetJsonRepo(), u.repoManager.GetDataSensorRepo())
 }
 
 func NewUseCaseManager(repoManager RepositoryManager) UsecaseManager {

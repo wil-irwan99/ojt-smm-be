@@ -5,7 +5,7 @@ type Device struct {
 	Type     string
 	Category string
 	Id       string `gorm:"primaryKey"`
-	DataType string
+	Site     string
 }
 
 func (Device) TableName() string {

@@ -9,7 +9,7 @@ import (
 
 type GetDataSensorRepository interface {
 	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
-	RetriveBandwidth(site string) (model.BandwidthCapacity, error)
+	//RetriveBandwidth(site string) (model.BandwidthCapacity, error)
 	RetriveDevices(site string) ([]model.Device, error)
 }
 
@@ -45,19 +45,19 @@ func (g *getDataSensorRepository) RetriveDevices(site string) ([]model.Device, e
 	return devices, nil
 }
 
-func (g *getDataSensorRepository) RetriveBandwidth(site string) (model.BandwidthCapacity, error) {
-	var bandwidth model.BandwidthCapacity
-	res := g.db.Where("site = ?", site).Last(&bandwidth)
+// func (g *getDataSensorRepository) RetriveBandwidth(site string) (model.BandwidthCapacity, error) {
+// 	var bandwidth model.BandwidthCapacity
+// 	res := g.db.Where("site = ?", site).Last(&bandwidth)
 
-	if err := res.Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return model.BandwidthCapacity{}, nil
-		} else {
-			return model.BandwidthCapacity{}, err
-		}
-	}
-	return bandwidth, nil
-}
+// 	if err := res.Error; err != nil {
+// 		if errors.Is(err, gorm.ErrRecordNotFound) {
+// 			return model.BandwidthCapacity{}, nil
+// 		} else {
+// 			return model.BandwidthCapacity{}, err
+// 		}
+// 	}
+// 	return bandwidth, nil
+// }
 
 func NewGetDataSensorRepository(db *gorm.DB) GetDataSensorRepository {
 	repo := new(getDataSensorRepository)

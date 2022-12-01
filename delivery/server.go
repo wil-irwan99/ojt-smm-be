@@ -34,7 +34,7 @@ func Server() *appServer {
 }
 
 func (a *appServer) initControllers() {
-	controller.NewGetDataSiteController(a.engine, a.managerUsecase.GetDataInternetSiteUsecase(), a.infra.ConfigData())
+	controller.NewGetDataSiteController(a.engine, a.managerUsecase.GetDataInternetSiteUsecase(), a.managerUsecase.GetDataCPUSiteUsecase(), a.infra.ConfigData())
 }
 
 func (a *appServer) Run() {

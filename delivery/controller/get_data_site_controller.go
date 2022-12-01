@@ -10,9 +10,10 @@ import (
 )
 
 type GetDataSiteController struct {
-	router    *gin.Engine
-	ucGetData usecase.GetInternetDataSiteUsecase
-	config    config.Config
+	router       *gin.Engine
+	ucGetData    usecase.GetInternetDataSiteUsecase
+	ucGetDataCPU usecase.GetCPUDataSiteUsecase
+	config       config.Config
 }
 
 func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
@@ -34,6 +35,7 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 	var ipSiteConfig [][]string
 	var resultInternetArr []dto.DataOutput
 	var resultIntranetArr []dto.DataOutput
+	var resultCPUArr []dto.DataOutputDevice
 
 	switch site {
 	case "BIB":
@@ -82,6 +84,16 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 		}
 		resultIntranetArr = append(resultIntranetArr, resultIntranet...)
 
+		resultCPU, err := g.ucGetDataCPU.GetCPUDataSite(ipSiteConfig[i][0], ipSiteConfig[i][1], ipSiteConfig[i][2], ipSiteConfig[i][3], sdate, edate, stime, etime)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"status":  "FAILED",
+				"message": "data not found, date time input maybe wrong",
+			})
+			return
+		}
+		resultCPUArr = append(resultCPUArr, resultCPU...)
+
 	}
 
 	// resultTraffIn, resUtilizationTraffIn, resultTraffOut, resUtilizationTraffOut, averageUp, _, sdate, edate, stime, etime, err := g.ucGetData.GetInternetData(input.IdSensor, input.SDate, input.EDate, input.STime, input.ETime)
@@ -115,15 +127,17 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 		"datetime":       sdate + " " + stime + " - " + edate + " " + etime,
 		"resultInternet": resultInternetArr,
 		"resultIntranet": resultIntranetArr,
+		"resultCPU":      resultCPUArr,
 	})
 
 }
 
-func NewGetDataSiteController(router *gin.Engine, ucGetData usecase.GetInternetDataSiteUsecase, config config.Config) *GetDataSiteController {
+func NewGetDataSiteController(router *gin.Engine, ucGetData usecase.GetInternetDataSiteUsecase, ucGetDataCPU usecase.GetCPUDataSiteUsecase, config config.Config) *GetDataSiteController {
 	controller := GetDataSiteController{
-		router:    router,
-		ucGetData: ucGetData,
-		config:    config,
+		router:       router,
+		ucGetData:    ucGetData,
+		ucGetDataCPU: ucGetDataCPU,
+		config:       config,
 	}
 
 	router.GET("/get-data", controller.GetDataSite)
