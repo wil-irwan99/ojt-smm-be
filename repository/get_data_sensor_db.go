@@ -11,6 +11,7 @@ type GetDataSensorRepository interface {
 	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
 	//RetriveBandwidth(site string) (model.BandwidthCapacity, error)
 	RetriveDevices(site string) ([]model.Device, error)
+	AddSensor(sensor *model.Sensor) error
 }
 
 type getDataSensorRepository struct {
@@ -43,6 +44,11 @@ func (g *getDataSensorRepository) RetriveDevices(site string) ([]model.Device, e
 		}
 	}
 	return devices, nil
+}
+
+func (g *getDataSensorRepository) AddSensor(sensor *model.Sensor) error {
+	result := g.db.Create(sensor)
+	return result.Error
 }
 
 // func (g *getDataSensorRepository) RetriveBandwidth(site string) (model.BandwidthCapacity, error) {

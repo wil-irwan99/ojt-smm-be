@@ -1,12 +1,20 @@
 package dto
 
-type DataInput struct {
-	Site     string `json:"site"`
-	IdSensor string `json:"id_sensor"`
-	SDate    string `json:"sdate"`
-	EDate    string `json:"edate"`
-	STime    string `json:"stime"`
-	ETime    string `json:"etime"`
+// type DataInput struct {
+// 	Site     string `json:"site"`
+// 	IdSensor string `json:"id_sensor"`
+// 	SDate    string `json:"sdate"`
+// 	EDate    string `json:"edate"`
+// 	STime    string `json:"stime"`
+// 	ETime    string `json:"etime"`
+// }
+
+type DataSensorInput struct {
+	Site      string `json:"site"`
+	Link      string `json:"link"`
+	Id        string `json:"id"`
+	Type      string `json:"type"`
+	Bandwidth int16  `json:"bandwidth"`
 }
 
 type DataOutput struct {

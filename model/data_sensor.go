@@ -6,6 +6,7 @@ type Sensor struct {
 	Id        string `gorm:"primaryKey"`
 	Type      string
 	Bandwidth int16
+	BaseModel BaseModel `gorm:"embedded" json:"baseModel"`
 }
 
 func (Sensor) TableName() string {

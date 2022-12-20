@@ -35,6 +35,7 @@ func Server() *appServer {
 
 func (a *appServer) initControllers() {
 	controller.NewGetDataSiteController(a.engine, a.managerUsecase.GetDataInternetSiteUsecase(), a.managerUsecase.GetDataCPUSiteUsecase(), a.infra.ConfigData())
+	controller.NewSensorController(a.engine, a.managerUsecase.AddNewSensorUsecase())
 }
 
 func (a *appServer) Run() {
