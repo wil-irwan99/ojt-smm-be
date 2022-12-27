@@ -2,7 +2,9 @@ package config
 
 import (
 	"fmt"
-	"os"
+	"log"
+
+	"github.com/spf13/viper"
 )
 
 type ApiConfig struct {
@@ -34,26 +36,44 @@ type Config struct {
 	DbConfig
 }
 
-func (c *Config) readConfig() {
-	api := os.Getenv("API_URL")
-	ipBIB := os.Getenv("IP_BIB")
-	ipKIM := os.Getenv("IP_KIM")
-	ipMAL := os.Getenv("IP_MAL")
-	ipBSL := os.Getenv("IP_BSL")
-	ipSML := os.Getenv("IP_SML")
-	ipMSIG := os.Getenv("IP_MSIG")
-	ipBCHO := os.Getenv("IP_BCHO")
-	user := os.Getenv("USER")
-	password := os.Getenv("PASSWORD")
-	userBCHO := os.Getenv("USER_BCHO")
-	passwordBCHO := os.Getenv("PASSWORD_BCHO")
-	passwordSML := os.Getenv("PASSWORD_SML")
+func Loadenv(key string) string {
 
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	viper.SetConfigFile("config/config.env")
+	err := viper.ReadInConfig()
+
+	if err != nil {
+		log.Fatalf("Error while reading config file%s", err)
+	}
+
+	value, ok := viper.Get(key).(string)
+
+	if !ok {
+		log.Fatalf("Invalid type assertion %s", key)
+	}
+
+	return value
+}
+
+func (c *Config) readConfig() {
+	api := Loadenv("API_URL")
+	ipBIB := Loadenv("IP_BIB")
+	ipKIM := Loadenv("IP_KIM")
+	ipMAL := Loadenv("IP_MAL")
+	ipBSL := Loadenv("IP_BSL")
+	ipSML := Loadenv("IP_SML")
+	ipMSIG := Loadenv("IP_MSIG")
+	ipBCHO := Loadenv("IP_BCHO")
+	user := Loadenv("USER")
+	password := Loadenv("PASSWORD")
+	userBCHO := Loadenv("USER_BCHO")
+	passwordBCHO := Loadenv("PASSWORD_BCHO")
+	passwordSML := Loadenv("PASSWORD_SML")
+
+	dbHost := Loadenv("DB_HOST")
+	dbPort := Loadenv("DB_PORT")
+	dbUser := Loadenv("DB_USER")
+	dbPassword := Loadenv("DB_PASSWORD")
+	dbName := Loadenv("DB_NAME")
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", dbHost, dbUser, dbPassword, dbName, dbPort)
 

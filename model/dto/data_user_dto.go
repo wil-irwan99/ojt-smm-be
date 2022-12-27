@@ -17,6 +17,18 @@ type DataSensorInput struct {
 	Bandwidth int16  `json:"bandwidth"`
 }
 
+type DataDeviceInput struct {
+	Location string `json:"location"`
+	Type     string `json:"type"`
+	Category string `json:"category"`
+	Id       string `json:"id"`
+	Site     string `json:"site"`
+}
+
+type IdInput struct {
+	Id string `json:"id"`
+}
+
 type DataOutput struct {
 	Id                    string  `json:"id"`
 	Site                  string  `json:"site"`

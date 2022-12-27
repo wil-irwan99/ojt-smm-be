@@ -12,6 +12,9 @@ type GetDataSensorRepository interface {
 	//RetriveBandwidth(site string) (model.BandwidthCapacity, error)
 	RetriveDevices(site string) ([]model.Device, error)
 	AddSensor(sensor *model.Sensor) error
+	AddSensorDevice(device *model.Device) error
+	DeleteSensor(id string) error
+	DeleteSensorDevice(id string) error
 }
 
 type getDataSensorRepository struct {
@@ -48,6 +51,21 @@ func (g *getDataSensorRepository) RetriveDevices(site string) ([]model.Device, e
 
 func (g *getDataSensorRepository) AddSensor(sensor *model.Sensor) error {
 	result := g.db.Create(sensor)
+	return result.Error
+}
+
+func (g *getDataSensorRepository) AddSensorDevice(device *model.Device) error {
+	result := g.db.Create(device)
+	return result.Error
+}
+
+func (g *getDataSensorRepository) DeleteSensor(id string) error {
+	result := g.db.Unscoped().Where("id = ?", id).Delete(&model.Sensor{})
+	return result.Error
+}
+
+func (g *getDataSensorRepository) DeleteSensorDevice(id string) error {
+	result := g.db.Unscoped().Where("id = ?", id).Delete(&model.Device{})
 	return result.Error
 }
 
