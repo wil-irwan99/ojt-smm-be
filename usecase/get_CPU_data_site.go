@@ -17,17 +17,17 @@ type getCPUDataSiteUsecase struct {
 }
 
 func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user string, password string, sdate string, edate string, stime string, etime string) ([]dto.DataOutputDevice, error) {
-	var devices []model.Device
-	devices, err := g.getDataSensorRepo.RetriveDevices(site)
+	var sensors []model.Sensor
+	sensors, err := g.getDataSensorRepo.RetriveSensors(site, "CPU")
 	if err != nil {
 		return nil, err
 	}
 
 	var resultArr []dto.DataOutputDevice
 
-	for i := 0; i < len(devices); i++ {
+	for i := 0; i < len(sensors); i++ {
 
-		result, err := g.getDataRepo.GetJson(devices[i].Id, ip, user, password, sdate, edate, stime, etime)
+		result, err := g.getDataRepo.GetJson(sensors[i].Id, ip, user, password, sdate, edate, stime, etime)
 
 		var key string
 
@@ -78,10 +78,10 @@ func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user stri
 			}
 
 			resultData := dto.DataOutputDevice{
-				Id:        devices[i].Id,
-				Location:  devices[i].Location,
-				Type:      devices[i].Type,
-				Category:  devices[i].Category,
+				Id:        sensors[i].Id,
+				Site:      sensors[i].Site,
+				Device:    sensors[i].Link,
+				Type:      sensors[i].Type,
 				Usage:     averageValue,
 				Condition: condition,
 				Notes:     "",

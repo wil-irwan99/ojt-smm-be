@@ -24,14 +24,6 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 	stime := ctx.Query("stime")
 	etime := ctx.Query("etime")
 
-	// var input dto.DataInput
-	// if err := ctx.BindJSON(&input); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{
-	// 		"message": "can't bind struct",
-	// 	})
-	// 	return
-	// }
-
 	var ipSiteConfig [][]string
 	var resultInternetArr []dto.DataOutput
 	var resultIntranetArr []dto.DataOutput
@@ -95,32 +87,6 @@ func (g *GetDataSiteController) GetDataSite(ctx *gin.Context) {
 		resultCPUArr = append(resultCPUArr, resultCPU...)
 
 	}
-
-	// resultTraffIn, resUtilizationTraffIn, resultTraffOut, resUtilizationTraffOut, averageUp, _, sdate, edate, stime, etime, err := g.ucGetData.GetInternetData(input.IdSensor, input.SDate, input.EDate, input.STime, input.ETime)
-	// if err != nil {
-	// 	ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-	// 		"status":  "FAILED",
-	// 		"message": "data not found, date time input maybe wrong",
-	// 	})
-	// 	return
-	// }
-
-	//var resultArr []dto.DataOutput
-
-	// resultData := dto.DataOutput{
-	// 	Id:                    input.IdSensor,
-	// 	Site:                  input.Site,
-	// 	Link:                  "XL",
-	// 	AverageUp:             averageUp,
-	// 	UtilizationTrafficIn:  resUtilizationTraffIn,
-	// 	UtilizationTrafficOut: resUtilizationTraffOut,
-	// 	TrafficIn:             resultTraffIn,
-	// 	TrafficOut:            resultTraffOut,
-	// 	Notes:                 "notes",
-	// 	BandwidthCap:          85,
-	// }
-
-	//resultArr = append(resultArr, result...)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":         "SUCCESS",

@@ -23,12 +23,6 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 		return nil, err
 	}
 
-	// var bandwidth model.BandwidthCapacity
-	// bandwidth, err = g.getDataSensorRepo.RetriveBandwidth(site)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	var resultArr []dto.DataOutput
 
 	for i := 0; i < len(sensors); i++ {
@@ -101,7 +95,6 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 			averageMbitResultTrafficOut = math.Round(averageMbitResultTrafficOut)
 
 			averageUp = math.Round(averageUp / float64(len(result.HistDatas)))
-			// averageDown = 100 - averageUp
 
 			utilizationTrafficIn = math.Round(((averageMbitResultTrafficIn/float64(sensors[i].Bandwidth))*100)*100) / 100
 			utilizationTrafficOut = math.Round(((averageMbitResultTrafficOut/float64(sensors[i].Bandwidth))*100)*100) / 100

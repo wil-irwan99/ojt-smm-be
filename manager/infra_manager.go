@@ -56,16 +56,9 @@ func initDbResource(dataSourceName string) (*gorm.DB, error) {
 		log.Println("connected")
 	}
 
-	// env := "migration"
-
-	// if env == "dev" {
-	// 	db = db.Debug()
-	// } else if env == "migration" {
 	db = db.Debug()
 	db.AutoMigrate(
 		&model.Sensor{},
-		//&model.BandwidthCapacity{},
-		&model.Device{},
 	)
 	if err != nil {
 		return nil, err

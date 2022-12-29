@@ -1,28 +1,11 @@
 package dto
 
-// type DataInput struct {
-// 	Site     string `json:"site"`
-// 	IdSensor string `json:"id_sensor"`
-// 	SDate    string `json:"sdate"`
-// 	EDate    string `json:"edate"`
-// 	STime    string `json:"stime"`
-// 	ETime    string `json:"etime"`
-// }
-
 type DataSensorInput struct {
 	Site      string `json:"site"`
 	Link      string `json:"link"`
 	Id        string `json:"id"`
 	Type      string `json:"type"`
 	Bandwidth int16  `json:"bandwidth"`
-}
-
-type DataDeviceInput struct {
-	Location string `json:"location"`
-	Type     string `json:"type"`
-	Category string `json:"category"`
-	Id       string `json:"id"`
-	Site     string `json:"site"`
 }
 
 type IdInput struct {
@@ -44,9 +27,9 @@ type DataOutput struct {
 
 type DataOutputDevice struct {
 	Id        string  `json:"id"`
-	Location  string  `json:"location"`
+	Site      string  `json:"site"`
+	Device    string  `json:"device"`
 	Type      string  `json:"type"`
-	Category  string  `json:"category"`
 	Usage     float64 `json:"usage"`
 	Condition string  `json:"condition"`
 	Notes     string  `json:"notes"`

@@ -9,12 +9,8 @@ import (
 
 type GetDataSensorRepository interface {
 	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
-	//RetriveBandwidth(site string) (model.BandwidthCapacity, error)
-	RetriveDevices(site string) ([]model.Device, error)
 	AddSensor(sensor *model.Sensor) error
-	AddSensorDevice(device *model.Device) error
 	DeleteSensor(id string) error
-	DeleteSensorDevice(id string) error
 }
 
 type getDataSensorRepository struct {
@@ -35,27 +31,8 @@ func (g *getDataSensorRepository) RetriveSensors(site string, tipe string) ([]mo
 	return sensors, nil
 }
 
-func (g *getDataSensorRepository) RetriveDevices(site string) ([]model.Device, error) {
-	var devices []model.Device
-	res := g.db.Where("site = ?", site).Find(&devices)
-
-	if err := res.Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
-		} else {
-			return nil, err
-		}
-	}
-	return devices, nil
-}
-
 func (g *getDataSensorRepository) AddSensor(sensor *model.Sensor) error {
 	result := g.db.Create(sensor)
-	return result.Error
-}
-
-func (g *getDataSensorRepository) AddSensorDevice(device *model.Device) error {
-	result := g.db.Create(device)
 	return result.Error
 }
 
@@ -63,25 +40,6 @@ func (g *getDataSensorRepository) DeleteSensor(id string) error {
 	result := g.db.Unscoped().Where("id = ?", id).Delete(&model.Sensor{})
 	return result.Error
 }
-
-func (g *getDataSensorRepository) DeleteSensorDevice(id string) error {
-	result := g.db.Unscoped().Where("id = ?", id).Delete(&model.Device{})
-	return result.Error
-}
-
-// func (g *getDataSensorRepository) RetriveBandwidth(site string) (model.BandwidthCapacity, error) {
-// 	var bandwidth model.BandwidthCapacity
-// 	res := g.db.Where("site = ?", site).Last(&bandwidth)
-
-// 	if err := res.Error; err != nil {
-// 		if errors.Is(err, gorm.ErrRecordNotFound) {
-// 			return model.BandwidthCapacity{}, nil
-// 		} else {
-// 			return model.BandwidthCapacity{}, err
-// 		}
-// 	}
-// 	return bandwidth, nil
-// }
 
 func NewGetDataSensorRepository(db *gorm.DB) GetDataSensorRepository {
 	repo := new(getDataSensorRepository)
