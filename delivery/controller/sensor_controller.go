@@ -5,6 +5,7 @@ import (
 	"project-ojt/model"
 	"project-ojt/model/dto"
 	"project-ojt/usecase"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,12 +24,15 @@ func (s *SensorController) AddSensor(ctx *gin.Context) {
 		return
 	}
 
+	convToIntBandwidth, _ := strconv.ParseInt(input.Bandwidth, 10, 16)
+	convToInt16Bandwidth := int16(convToIntBandwidth)
+
 	err := s.ucAddSensor.AddNewSensor(&model.Sensor{
 		Site:      input.Site,
 		Link:      input.Link,
 		Id:        input.Id,
 		Type:      input.Type,
-		Bandwidth: input.Bandwidth,
+		Bandwidth: convToInt16Bandwidth,
 	})
 
 	if err != nil {

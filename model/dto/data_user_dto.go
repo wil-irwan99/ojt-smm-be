@@ -5,7 +5,7 @@ type DataSensorInput struct {
 	Link      string `json:"link"`
 	Id        string `json:"id"`
 	Type      string `json:"type"`
-	Bandwidth int16  `json:"bandwidth"`
+	Bandwidth string `json:"bandwidth"`
 }
 
 type IdInput struct {
