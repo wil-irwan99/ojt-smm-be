@@ -76,6 +76,30 @@ func (s *SensorController) DeleteSensor(ctx *gin.Context) {
 
 }
 
+func (s *SensorController) RetrieveSensors(ctx *gin.Context) {
+	page := ctx.Query("page")
+
+	convInt64Page, _ := strconv.ParseInt(page, 10, 16)
+	convIntPage := int(convInt64Page)
+
+	offset := (convIntPage - 1) * 10
+
+	result, err := s.ucAddSensor.RetriveDataSensorPaging(offset)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"status":  "FAILED",
+			"message": "can't retrieve sensors data",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"status":      "SUCCESS",
+		"message":     "retrieve sensors data success",
+		"dataSensors": result,
+	})
+}
+
 func NewSensorController(router *gin.Engine, ucAddSensor usecase.AddNewSensorUsecase) *SensorController {
 	controller := SensorController{
 		router:      router,
@@ -86,6 +110,7 @@ func NewSensorController(router *gin.Engine, ucAddSensor usecase.AddNewSensorUse
 	{
 		rSensor.POST("/add", controller.AddSensor)
 		rSensor.POST("/delete", controller.DeleteSensor)
+		rSensor.GET("/get-sensors", controller.RetrieveSensors)
 	}
 
 	return &controller

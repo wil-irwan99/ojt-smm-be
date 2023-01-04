@@ -9,6 +9,7 @@ import (
 
 type GetDataSensorRepository interface {
 	RetriveSensors(site string, tipe string) ([]model.Sensor, error)
+	RetriveSensorsPaging(offset int) ([]model.Sensor, error)
 	AddSensor(sensor *model.Sensor) error
 	DeleteSensor(id string) error
 }
@@ -20,6 +21,20 @@ type getDataSensorRepository struct {
 func (g *getDataSensorRepository) RetriveSensors(site string, tipe string) ([]model.Sensor, error) {
 	var sensors []model.Sensor
 	res := g.db.Where("site = ? AND type = ?", site, tipe).Find(&sensors)
+
+	if err := res.Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		} else {
+			return nil, err
+		}
+	}
+	return sensors, nil
+}
+
+func (g *getDataSensorRepository) RetriveSensorsPaging(offset int) ([]model.Sensor, error) {
+	var sensors []model.Sensor
+	res := g.db.Offset(offset).Limit(10).Find(&sensors)
 
 	if err := res.Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

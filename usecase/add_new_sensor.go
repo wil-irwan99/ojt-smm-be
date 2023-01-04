@@ -8,6 +8,7 @@ import (
 type AddNewSensorUsecase interface {
 	AddNewSensor(sensor *model.Sensor) error
 	DeleteSensor(id string) error
+	RetriveDataSensorPaging(offset int) ([]model.Sensor, error)
 }
 
 type addNewSensorUsecase struct {
@@ -28,6 +29,14 @@ func (a *addNewSensorUsecase) DeleteSensor(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (a *addNewSensorUsecase) RetriveDataSensorPaging(offset int) ([]model.Sensor, error) {
+	result, err := a.getDataSensorRepo.RetriveSensorsPaging(offset)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
 
 func NewAddNewSensorUsecase(getDataSensorRepo repository.GetDataSensorRepository) AddNewSensorUsecase {
