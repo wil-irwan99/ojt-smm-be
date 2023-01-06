@@ -93,10 +93,18 @@ func (s *SensorController) RetrieveSensors(ctx *gin.Context) {
 		return
 	}
 
+	totalData := s.ucAddSensor.CountDataSensor()
+	totalPage := totalData / 10
+	lastPage := totalData % 10
+	if lastPage > 0 {
+		totalPage += 1
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":      "SUCCESS",
 		"message":     "retrieve sensors data success",
 		"dataSensors": result,
+		"lastPage":    totalPage,
 	})
 }
 

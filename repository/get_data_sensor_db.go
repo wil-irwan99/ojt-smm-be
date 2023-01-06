@@ -12,6 +12,7 @@ type GetDataSensorRepository interface {
 	RetriveSensorsPaging(offset int) ([]model.Sensor, error)
 	AddSensor(sensor *model.Sensor) error
 	DeleteSensor(id string) error
+	CountSensors() int16
 }
 
 type getDataSensorRepository struct {
@@ -54,6 +55,12 @@ func (g *getDataSensorRepository) AddSensor(sensor *model.Sensor) error {
 func (g *getDataSensorRepository) DeleteSensor(id string) error {
 	result := g.db.Unscoped().Where("id = ?", id).Delete(&model.Sensor{})
 	return result.Error
+}
+
+func (g *getDataSensorRepository) CountSensors() int16 {
+	var count int64
+	g.db.Model(&model.Sensor{}).Count(&count)
+	return int16(count)
 }
 
 func NewGetDataSensorRepository(db *gorm.DB) GetDataSensorRepository {
