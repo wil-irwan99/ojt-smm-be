@@ -31,7 +31,7 @@ func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user stri
 
 		var key string
 
-		for k := range result.HistDatas[i] {
+		for k := range result.HistDatas[0] {
 			if k != "datetime" {
 				if k != "Downtime" {
 					if k != "coverage" {
