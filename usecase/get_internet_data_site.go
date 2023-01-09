@@ -115,7 +115,21 @@ func (g *getInternetDataSiteUsecase) GetInternetDataSite(site string, tipe strin
 			resultArr = append(resultArr, resultData)
 
 		} else {
-			return nil, err
+			resultData := dto.DataOutput{
+				Id:                    sensors[i].Id,
+				Site:                  site,
+				Link:                  sensors[i].Link,
+				AverageUp:             0,
+				UtilizationTrafficIn:  0,
+				UtilizationTrafficOut: 0,
+				TrafficIn:             0,
+				TrafficOut:            0,
+				Notes:                 "site down",
+				BandwidthCap:          float64(sensors[i].Bandwidth),
+			}
+
+			resultArr = append(resultArr, resultData)
+			//return nil, err
 		}
 
 	}

@@ -89,7 +89,17 @@ func (g *getCPUDataSiteUsecase) GetCPUDataSite(site string, ip string, user stri
 
 			resultArr = append(resultArr, resultData)
 		} else {
-			return nil, err
+			resultData := dto.DataOutputDevice{
+				Id:        sensors[i].Id,
+				Site:      sensors[i].Site,
+				Device:    sensors[i].Link,
+				Type:      sensors[i].Type,
+				Usage:     0,
+				Condition: "server down",
+				Notes:     "server down",
+			}
+			resultArr = append(resultArr, resultData)
+			//return nil, err
 		}
 	}
 
